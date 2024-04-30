@@ -1,25 +1,22 @@
 pipeline {
     agent any
     stages {
-         stage('Checkout SCM') {
-            steps {
-                git branch: 'main', url: 'https://github.com/KartikRohilla10/CI_CD.git'
-            }
-        }
         stage('Dependencies') {
             steps {
+                echo 'Installing dependencies '
                 sh "npm install" // corrected npm spelling
                  // corrected npm spelling and added missing double quotes
             }
         }
         stage('Build') {
             steps {
-                // corrected npm spelling
+                echo 'Build React app'
                 sh "npm run build" // corrected npm spelling and added missing double quotes
             }
         }
         stage('Test') {
             steps {
+                echo 'Testing React app'
                 sh "npm test" // corrected npm spelling
                 
             }
