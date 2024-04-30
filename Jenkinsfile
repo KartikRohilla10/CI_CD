@@ -1,35 +1,30 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
+        stage('Dependencies') {
             steps {
-                checkout scm
+                sh "npm install" // corrected npm spelling
+                 // corrected npm spelling and added missing double quotes
             }
         }
-        
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-        
         stage('Build') {
             steps {
-                sh 'cd /home/ubuntu/'
-                sh 'npm run build'
+                // corrected npm spelling
+                sh "npm run build" // corrected npm spelling and added missing double quotes
             }
         }
-        
         stage('Test') {
             steps {
-                sh 'npm test'
+                sh "npm test" // corrected npm spelling
+                
             }
         }
-        
-        stage('Deploy') {
+        stage('Deploy') { // corrected stage name spelling
             steps {
-                sh "sudo rm -rf /var/www/"
-                sh "sudo cp -r /home/ubuntu/build /var/www/"
+                sh "sudo rm -rf /var/www/react" // corrected rm command
+                sh "sudo cp -r ${WORKSPACE}/build/ /var/www/react/" // corrected cp command
+
+                
             }
         }
     }
