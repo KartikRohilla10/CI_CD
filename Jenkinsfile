@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Testing React app'
+                echo 'Testing React apps'
                 sh "npm test" // corrected npm spelling
                 
             }
