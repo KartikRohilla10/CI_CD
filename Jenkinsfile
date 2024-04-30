@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "sudo rm -rf /var/www/"
-                sh "sudo cp -r ${WORKSPACE}/build/ /var/www/"
+                sh "sudo cp -r /home/ubuntu/build/ /var/www/"
             }
         }
     }
