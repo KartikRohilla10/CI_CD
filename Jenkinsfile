@@ -29,12 +29,11 @@ pipeline {
                 
             }
         }
-        stage('Reload Website') 
-        {
+        stage('Reload Website') {
         steps {
-        echo 'Reloading website dyamically'
-        sh 'cd /var/www/react && browser-sync start --server --files "*.html, *.css, *.js" &'
+            echo 'Reloading website using BrowserSync'
+            sh 'cd /var/www/react && browser-sync start --server --files "*.html, *.css, *.js" --no-open &'
+            }
         }
-    }
     }
 }
