@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+         stage('Checkout SCM') {
+            steps {
+                git branch: 'main', url: 'https://github.com/KartikRohilla10/CI_CD.git'
+            }
+        }
         stage('Dependencies') {
             steps {
                 sh "npm install" // corrected npm spelling
@@ -19,7 +24,7 @@ pipeline {
                 
             }
         }
-        stage('Deploy') { // corrected stage name spelling
+        stage('Serve to Nginx') { // corrected stage name spelling
             steps {
                 sh "sudo rm -rf /var/www/react" // corrected rm command
                 sh "sudo cp -r ${WORKSPACE}/build/ /var/www/react/" // corrected cp command
