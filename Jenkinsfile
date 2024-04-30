@@ -29,11 +29,5 @@ pipeline {
                 
             }
         }
-        stage('Reload Website') {
-        steps {
-            echo 'Reloading website using BrowserSync'
-            sh 'cd /var/www/react && browser-sync start --server --files "*.html, *.css, *.js" --no-open &'
-            }
-        }
     }
 }
