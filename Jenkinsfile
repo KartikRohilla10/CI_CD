@@ -15,6 +15,7 @@ pipeline {
         
         stage('Build') {
             steps {
+                sh 'cd /home/ubuntu/'
                 sh 'npm run build'
             }
         }
@@ -28,7 +29,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "sudo rm -rf /var/www/"
-                sh "sudo cp -r /home/ubuntu/build/ /var/www/"
+                sh "sudo cp -r /home/ubuntu/build /var/www/"
             }
         }
     }
