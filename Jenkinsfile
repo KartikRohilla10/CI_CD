@@ -29,5 +29,12 @@ pipeline {
                 
             }
         }
+        stage('Reload Website') 
+        {
+        steps {
+        echo 'Reloading website dyamically'
+        sh 'cd /var/www/react && browser-sync start --server --files "*.html, *.css, *.js" &'
+        }
+    }
     }
 }
