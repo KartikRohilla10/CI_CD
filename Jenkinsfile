@@ -3,19 +3,19 @@ pipeline {
     stages {
         stage('Dependencies') {
             steps {
-                echo '____________________________________________________________Installing dependencies____________________________________________________________ '
+                echo '________Installing dependencies________ '
                 sh 'npm install'
             }
         }
         stage('Docker Build') {
             steps {
-                echo '____________________________________________________________Building Docker image____________________________________________________________'
+                echo '________Building Docker image________'
                 sh 'docker build -t reactapp .'
             }
         }
         stage('Docker Login') {
             steps {
-                echo '____________________________________________________________Logging into Docker registry____________________________________________________________'
+                echo '________Logging into Docker registry________'
                 withCredentials([usernamePassword(credentialsId: "dockercred", passwordVariable: "dockerPass", usernameVariable: "dockerUser")]) {
                     sh "docker login -u ${env.dockerUser} -p ${env.dockerPass}"
                 }
@@ -23,17 +23,17 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo '____________________________________________________________Building React app____________________________________________________________'
+                echo '________Building React app________'
                 sh 'npm run build'
             }
         }
         stage('Test') {
             steps {
-                echo '____________________________________________________________Testing React apps____________________________________________________________'
+                echo '________Testing React apps________'
                 sh 'npm test'
             }
         }
-        stage('____________________________________________________________Serve to Nginx____________________________________________________________') {
+        stage('________Serve to Nginx________') {
             steps {
                 echo 'Copying build files to Nginx directory'
                 sh 'sudo rm -rf /var/www/react'
