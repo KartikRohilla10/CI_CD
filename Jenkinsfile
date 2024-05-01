@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo '________Logging into Docker registry________'
                 withCredentials([usernamePassword(credentialsId: "dockercred", passwordVariable: "dockerPass", usernameVariable: "dockerUser")]) {
-                   sh "docker tag reactapp S{env.dockerUser}/reactapp:latest"
+                   sh "docker tag reactapp ${env.dockerUser}/reactapp:latest"
                     sh "docker login -u ${env.dockerUser} -p ${env.dockerPass}"
                     sh "docker push ${env.dockerUser}/reactapp:latest"
                 }
@@ -36,9 +36,9 @@ pipeline {
                 sh 'npm test'
             }
         }
-        stage('________Serve to Nginx________') {
+        stage('Serve to Nginx') {
             steps {
-                echo 'Copying build files to Nginx directory'
+                echo '________Copying build files to Nginx directory________'
                 sh 'sudo rm -rf /var/www/react'
                 sh 'sudo cp -r ${WORKSPACE}/build/ /var/www/react/'
             }
