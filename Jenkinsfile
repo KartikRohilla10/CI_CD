@@ -8,6 +8,20 @@ pipeline {
                  // corrected npm spelling and added missing double quotes
             }
         }
+        stage('docker image') {
+            steps {
+                echo 'Build docker image '
+                sh "docker build -t reactapp" // corrected npm spelling
+                 // corrected npm spelling and added missing double quotes
+            }
+        }
+         stage('Docker login ') {
+            steps {
+                echo 'Build Docker image'
+                withCredentials([usernamePassword(credentialsId:"dockercred",passwordVariable:"dockerPass",usernameVariable:"dockerUser")]){
+                sh "docker login -u ${env.dockerUser} -p ${env.dockerPass}" 
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Build React app'
