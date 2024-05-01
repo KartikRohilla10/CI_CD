@@ -17,8 +17,11 @@ pipeline {
             steps {
                 echo '________Logging into Docker registry________'
                 withCredentials([usernamePassword(credentialsId: "dockercred", passwordVariable: "dockerPass", usernameVariable: "dockerUser")]) {
+                   sh "docker tag reactapp S{env.dockerUser}/reactapp:latest"
                     sh "docker login -u ${env.dockerUser} -p ${env.dockerPass}"
+                    sh "docker push ${env.dockerUser}/reactapp:latest"
                 }
+                
             }
         }
         stage('Build') {
