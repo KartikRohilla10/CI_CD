@@ -30,6 +30,9 @@ pipeline {
                 sh 'npm run build'
             }
         }
+        pipeline {
+    agent any
+    stages {
         stage('Test') {
             steps {
                 echo '________Testing React apps________'
@@ -37,11 +40,15 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-    def scannerHome = tool 'sonar';
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
-    }
-  }
+            steps {
+                script {
+                    def scannerHome = tool 'sonar';
+                    withSonarQubeEnv() {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
         stage('Serve to Nginx') {
             steps {
                 echo '________Copying build files to Nginx directory________'
@@ -51,3 +58,4 @@ pipeline {
         }
     }
 }
+
