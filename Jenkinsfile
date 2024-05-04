@@ -1,21 +1,21 @@
 pipeline {
     agent any
     stages {
-        stage('Dependencies') {
+        stage('Installing Dependencies') {
             steps {
-                echo '________Installing dependencies________ '
+                echo '______________Installing dependencies______________ '
                 sh 'npm install'
             }
         }
         stage('Docker Build') {
             steps {
-                echo '________Building Docker image________'
+                echo '______________Building Docker image______________'
                 sh 'docker build -t reactapp .'
             }
         }
-        stage('Docker Login') {
+        stage('Docker Login & Push ') {
             steps {
-                echo '________Logging into Docker registry________'
+                echo '______________Logging into Docker registry______________'
                 withCredentials([usernamePassword(credentialsId: "dockercred", passwordVariable: "dockerPass", usernameVariable: "dockerUser")]) {
                    sh "docker tag reactapp ${env.dockerUser}/reactapp:latest"
                     sh "docker login -u ${env.dockerUser} -p ${env.dockerPass}"
@@ -24,20 +24,21 @@ pipeline {
                 
             }
         }
-        stage('Build') {
+        stage('Build (npm)') {
             steps {
-                echo '________Building React app________'
+                echo '______________Building React app______________'
                 sh 'npm run build'
             }
         }
-        stage('Test') {
+        stage('Test (npm)') {
             steps {
-                echo '________Testing React apps________'
+                echo '______________Testing React apps______________'
                 sh 'npm test'
             }
         }
         stage('SonarQube Analysis') {
             steps {
+                echo '______________SonarQube Analysis______________'
                 script {
                     def scannerHome = tool 'sonar-scanner';
                     withSonarQubeEnv() {
@@ -48,7 +49,7 @@ pipeline {
         }
         stage('Serve to Nginx') {
             steps {
-                echo '________Copying build files to Nginx directory________'
+                echo '______________Copying build files to Nginx directory______________'
                 sh 'sudo rm -rf /var/www/react'
                 sh 'sudo cp -r ${WORKSPACE}/build/ /var/www/react/'
             }
