@@ -36,6 +36,12 @@ pipeline {
                 sh 'npm test'
             }
         }
+        stage('SonarQube Analysis') {
+    def scannerHome = tool 'sonar-scanner';
+    withSonarQubeEnv() {
+      sh "${scannerHome}/bin/sonar-scanner"
+    }
+  }
         stage('Serve to Nginx') {
             steps {
                 echo '________Copying build files to Nginx directory________'
