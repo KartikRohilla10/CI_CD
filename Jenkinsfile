@@ -30,9 +30,6 @@ pipeline {
                 sh 'npm run build'
             }
         }
-        pipeline {
-    agent any
-    stages {
         stage('Test') {
             steps {
                 echo '________Testing React apps________'
@@ -58,4 +55,3 @@ pipeline {
         }
     }
 }
-    }}
